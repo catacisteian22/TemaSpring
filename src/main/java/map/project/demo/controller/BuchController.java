@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Controller // This means that this class is a Controller
@@ -23,20 +24,35 @@ public class BuchController {
 //    }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addBuchRequest(Long idBuch, String title, String autor, String genre, int anzahlSeiten, int erstellungsjahr, float preis) {
-        Buch newBuch = new Buch(idBuch, title, autor, genre, anzahlSeiten, erstellungsjahr, preis);
+    public ResponseEntity<String> addBuchRequest(
+            Long idBuch,
+            @RequestBody Map<String, Object> requestBody) {
+        String title = (String) requestBody.get("title");
+        String autor = (String) requestBody.get("autor");
+        String genre = (String) requestBody.get("genre");
+        Integer anzahlSeiten = (Integer) requestBody.get("anzahl_seiten");
+        Integer erstellungsjahr = (Integer) requestBody.get("erstellungsjahr");
+        Float preis = requestBody.get("preis") != null ? ((Number) requestBody.get("preis")).floatValue() : 0;
+
+        Buch newBuch = new Buch(idBuch, title, autor, genre,
+                anzahlSeiten != null ? anzahlSeiten : 0,
+                erstellungsjahr != null ? erstellungsjahr : 0,
+                preis);
         try {
             if (buchRepo.findBuchByIdBuch(idBuch) != null) {
                 buchRepo.save(newBuch);
                 return ResponseEntity.ok("operation succeeded!");
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     }
+
+
+
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<String> deleteBuchRequest(@PathVariable Long id) {

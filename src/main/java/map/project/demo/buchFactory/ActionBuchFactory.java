@@ -1,4 +1,4 @@
-package map.project.demo.BuchFactory;
+package map.project.demo.buchFactory;
 
 import map.project.demo.model.Buch;
 

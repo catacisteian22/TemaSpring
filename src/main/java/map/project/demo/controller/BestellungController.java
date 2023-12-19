@@ -30,7 +30,7 @@ public class BestellungController {
 
     @PostMapping(path = "/add")
     public ResponseEntity<String> addBestellungRequest(Long idBestellung, LocalDateTime datum, float gesamtpreis, String adresse, List<Buch> listeBucher) {
-        Bestellung newBestellung = new Bestellung(idBestellung, datum,  gesamtpreis,  adresse);
+        Bestellung newBestellung = new Bestellung(idBestellung, datum,  gesamtpreis, adresse, listeBucher);
         try {
             if (bestellungRepo.getReferenceById(idBestellung) != null) {
                 bestellungRepo.save(newBestellung);
