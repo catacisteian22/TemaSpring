@@ -1,10 +1,13 @@
 package map.project.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import map.project.demo.repository.Identifiable;
 
+@Data
 @Entity
 @Table(name = "review")
-public class Review {
+public class Review implements Identifiable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,28 +22,8 @@ public class Review {
                 '}';
     }
 
-    public int getAnzahlSternchen() {
-        return anzahlSternchen;
-    }
-
-    public void setAnzahlSternchen(int anzahlSternchen) {
-        this.anzahlSternchen = anzahlSternchen;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Long getIdReview() {
+    @Override
+    public Long getId() {
         return idReview;
     }
-
-    public void setIdReview(Long idReview) {
-        this.idReview = idReview;
-    }
-
 }

@@ -59,7 +59,8 @@ public class AutorController {
 //        Autor updatedAutor = new Autor(id,)
         try {
             if (autorRepo.getReferenceById(id) != null) {
-                autorRepo.save(id, updatedAutor);
+                updatedAutor.setIdAutor(id);
+                autorRepo.save(updatedAutor);
                 return ResponseEntity.ok("operation succeeded");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");

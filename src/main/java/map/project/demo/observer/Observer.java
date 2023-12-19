@@ -1,4 +1,4 @@
-package com.example.temaj.observer;
+package map.project.demo.observer;
 
 import java.time.LocalDateTime;
 

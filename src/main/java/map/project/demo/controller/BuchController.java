@@ -8,12 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Controller // This means that this class is a Controller
-@RequestMapping(path="/buchController")
+@RequestMapping(path = "/buchController")
 public class BuchController {
 
     @Autowired
@@ -27,7 +26,7 @@ public class BuchController {
     public ResponseEntity<String> addBuchRequest(Long idBuch, String title, String autor, String genre, int anzahlSeiten, int erstellungsjahr, float preis) {
         Buch newBuch = new Buch(idBuch, title, autor, genre, anzahlSeiten, erstellungsjahr, preis);
         try {
-            if (buchRepo.findBuchByIdBuch(idBuch) !=null) {
+            if (buchRepo.findBuchByIdBuch(idBuch) != null) {
                 buchRepo.save(newBuch);
                 return ResponseEntity.ok("operation succeeded!");
             } else {
@@ -59,7 +58,7 @@ public class BuchController {
             @PathVariable Long id,
             @RequestBody Buch updatedBuch) {
         try {
-            if (buchRepo.getById(id)!=null) {
+            if (buchRepo.getById(id) != null) {
                 updatedBuch.setIdBuch(id);
                 buchRepo.save(updatedBuch);
                 return ResponseEntity.ok("operation succeeded");
@@ -75,7 +74,7 @@ public class BuchController {
 
     @GetMapping(path = "/getByID/{id}")
     public ResponseEntity<Buch> getBuchById(@PathVariable Long id) {
-        Buch buch =  buchRepo.findById(id).get();
+        Buch buch = buchRepo.findById(id).get();
 
         if (buch != null) {
             return ResponseEntity.ok(buch);

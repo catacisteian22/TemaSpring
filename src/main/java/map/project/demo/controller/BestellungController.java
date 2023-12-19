@@ -1,10 +1,9 @@
 package map.project.demo.controller;
 
-import map.project.demo.model.Bestellung;
+import map.project.demo.model.*;
 import map.project.demo.repository.BestellungRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +20,7 @@ public class BestellungController {
 
     public BestellungController() {
     }
+
     //    public BestellungController(BestellungRepo bestellungRepo, KontoRepo kontoRepo, BuchRepo buchRepo) {
 //        this.buchRepo = buchRepo;
 //        this.kontoRepo = kontoRepo;
@@ -32,8 +32,8 @@ public class BestellungController {
     public ResponseEntity<String> addBestellungRequest(Long idBestellung, LocalDateTime datum, float gesamtpreis, String adresse, List<Buch> listeBucher) {
         Bestellung newBestellung = new Bestellung(idBestellung, datum,  gesamtpreis,  adresse);
         try {
-            if (!bestellungRepo.getById(idBestellung)) {
-                bestellungRepo.add(newBestellung);
+            if (bestellungRepo.getReferenceById(idBestellung) != null) {
+                bestellungRepo.save(newBestellung);
                 return ResponseEntity.ok("operation succeeded!");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
@@ -64,8 +64,9 @@ public class BestellungController {
             @PathVariable Long id,
             @RequestBody Bestellung updatedBestellung) {
         try {
-            if (bestellungRepo.getById(id)) {
-                bestellungRepo.update(id, updatedBestellung);
+            if (bestellungRepo.getReferenceById(id) != null) {
+                updatedBestellung.setIdBestellung(id);
+                bestellungRepo.save(updatedBestellung);
                 return ResponseEntity.ok("operation succeeded");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
@@ -79,10 +80,10 @@ public class BestellungController {
 
     @GetMapping(path = "/getByID/{id}")
     public ResponseEntity<Bestellung> getBestellungById(@PathVariable Long id) {
-        Bestellung Bestellung = bestellungRepo.getByIdentifier(id);
+        Bestellung bestellung = bestellungRepo.getReferenceById(id);
 
-        if (Bestellung != null) {
-            return ResponseEntity.ok(Bestellung);
+        if (bestellung != null) {
+            return ResponseEntity.ok(bestellung);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -90,7 +91,7 @@ public class BestellungController {
 
     @PostMapping(path = "/getAll")
     public ResponseEntity<List<Bestellung>> getAll() {
-        List<Bestellung> Bestellungs = bestellungRepo.getAll();
+        List<Bestellung> Bestellungs = bestellungRepo.findAll();
         return ResponseEntity.ok(Bestellungs);
     }
     public float calculateTotalPrice(List<Buch> chosenBooks) {

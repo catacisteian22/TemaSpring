@@ -41,8 +41,8 @@ public class KontoController {
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<String> deleteKontoRequest(@PathVariable Long id) {
         try {
-            if (kontorepo.getById(id)) {
-                kontorepo.delete(id);
+            if (kontorepo.getReferenceById(id) != null) {
+                kontorepo.deleteById(id);
                 return ResponseEntity.ok("operation succeeded!");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
@@ -58,8 +58,9 @@ public class KontoController {
             @PathVariable Long id,
             @RequestBody Konto updatedKonto) {
         try {
-            if (kontorepo.getById(id)) {
-                kontorepo.update(id, updatedKonto);
+            if (kontorepo.getReferenceById(id) != null) {
+                updatedKonto.setIdKonto(id);
+                kontorepo.save(updatedKonto);
                 return ResponseEntity.ok("operation succeeded");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
@@ -73,10 +74,10 @@ public class KontoController {
 
     @GetMapping(path = "/getByID/{id}")
     public ResponseEntity<Konto> getKontoById(@PathVariable Long id) {
-        Konto Konto = kontorepo.getByIdentifier(id);
+        Konto konto = kontorepo.findById(id).get();
 
-        if (Konto != null) {
-            return ResponseEntity.ok(Konto);
+        if (konto != null) {
+            return ResponseEntity.ok(konto);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -84,7 +85,7 @@ public class KontoController {
 
     @PostMapping(path = "/getAll")
     public ResponseEntity<List<Konto>> getAll() {
-        List<Konto> Kontos = kontorepo.getAll();
+        List<Konto> Kontos = kontorepo.findAll();
         return ResponseEntity.ok(Kontos);
     }
 }

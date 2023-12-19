@@ -1,4 +1,4 @@
-package com.example.temaj.observer;
+package map.project.demo.observer;
 
 public interface Observable {
     public void registerObserver(Observer observer);

@@ -1,12 +1,13 @@
 package map.project.demo.model;
 
-import com.example.temaj.observer.Observable;
-import com.example.temaj.observer.Observer;
-import com.example.temaj.repository.Identifiable;
 import jakarta.persistence.*;
+import lombok.Data;
+import map.project.demo.repository.Identifiable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+@Data
 @Entity
 @Table(name = "werbeveranstaltung")
 public class Werbeveranstaltung implements Identifiable {// implements Observable {
@@ -46,32 +47,8 @@ public class Werbeveranstaltung implements Identifiable {// implements Observabl
 //        }
 //    }
 
-    public String getTitelWerbe() {
-        return titelWerbe;
-    }
-
-    public void setTitelWerbe(String titelWerbe) {
-        this.titelWerbe = titelWerbe;
-    }
-
-    public LocalDateTime getDateWerbe() {
-        return dateWerbe;
-    }
-
-    public void setDateWerbe(LocalDateTime dateWerbe) {
-        this.dateWerbe = dateWerbe;
-    }
-
-    public Long getIdWerbe() {
-        return idWerbe;
-    }
-
-    public void setIdWerbe(Long idWerbe) {
-        this.idWerbe = idWerbe;
-    }
-
     @Override
     public Long getId() {
-        return null;
+        return idWerbe;
     }
 }

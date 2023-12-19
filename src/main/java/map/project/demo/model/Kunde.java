@@ -1,25 +1,31 @@
 package map.project.demo.model;
 
-import com.example.temaj.repository.Identifiable;
 import jakarta.persistence.*;
+import lombok.Data;
+import map.project.demo.observer.Display;
+import map.project.demo.observer.Observer;
+import map.project.demo.repository.Identifiable;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "kunde")
-public class Kunde implements com.example.temaj.observer.Observer, com.example.temaj.observer.Display, Identifiable {
+public class Kunde implements Observer, Display, Identifiable {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idKunde;
+
     private String name;
     private String vorname;
     private String email;
     private Date geburtsDatum;
 
-//    @OneToOne(mappedBy = "kunde")
-//    private Konto konto;
+    @OneToOne(mappedBy = "kunde")
+    private Konto konto;
+
 //    private Werbeveranstaltung werbeveranstaltung;
 
 //    public Kunde(Werbeveranstaltung werbeveranstaltung) {
@@ -51,48 +57,8 @@ public class Kunde implements com.example.temaj.observer.Observer, com.example.t
         System.out.println("The date is: " + dateWerbe);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVorname() {
-        return vorname;
-    }
-
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getGeburtsDatum() {
-        return geburtsDatum;
-    }
-
-    public void setGeburtsDatum(Date geburtsDatum) {
-        this.geburtsDatum = geburtsDatum;
-    }
-
-    public Long getIdKunde() {
-        return idKunde;
-    }
-
-    public void setIdKunde(Long idKunde) {
-        this.idKunde = idKunde;
-    }
-
     @Override
     public Long getId() {
-        return null;
+        return idKunde;
     }
 }

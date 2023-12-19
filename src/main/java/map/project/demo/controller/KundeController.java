@@ -2,6 +2,7 @@ package map.project.demo.controller;
 
 
 import map.project.demo.model.Kunde;
+import map.project.demo.model.Werbeveranstaltung;
 import map.project.demo.repository.KundeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,8 @@ public class KundeController {
     public ResponseEntity<String> addKundeRequest(String name, String vorname, String email, Date geburtsDatum, Long idKunde, Werbeveranstaltung werbeveranstaltung) {
         Kunde newKunde = new Kunde(name, vorname, email, geburtsDatum, idKunde,  werbeveranstaltung);
         try {
-            if (!kundeRepo.getById(idKunde)) {
-                kundeRepo.add(newKunde);
+            if (kundeRepo.getReferenceById(idKunde) != null) {
+                kundeRepo.save(newKunde);
                 return ResponseEntity.ok("operation succeeded!");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
@@ -42,8 +43,8 @@ public class KundeController {
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<String> deleteKundeRequest(@PathVariable Long id) {
         try {
-            if (kundeRepo.getById(id)) {
-                kundeRepo.delete(id);
+            if (kundeRepo.getReferenceById(id) != null) {
+                kundeRepo.deleteById(id);
                 return ResponseEntity.ok("operation succeeded!");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
@@ -59,8 +60,9 @@ public class KundeController {
             @PathVariable Long id,
             @RequestBody Kunde updatedKunde) {
         try {
-            if (kundeRepo.getById(id)) {
-                kundeRepo.update(id, updatedKunde);
+            if (kundeRepo.getReferenceById(id) != null) {
+                updatedKunde.setIdKunde(id);
+                kundeRepo.save(updatedKunde);
                 return ResponseEntity.ok("operation succeeded");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
@@ -74,10 +76,10 @@ public class KundeController {
 
     @GetMapping(path = "/getByID/{id}")
     public ResponseEntity<Kunde> getKundeById(@PathVariable Long id) {
-        Kunde Kunde = kundeRepo.getByIdentifier(id);
+        Kunde kunde = kundeRepo.findById(id).get();
 
-        if (Kunde != null) {
-            return ResponseEntity.ok(Kunde);
+        if (kunde != null) {
+            return ResponseEntity.ok(kunde);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -85,7 +87,7 @@ public class KundeController {
 
     @PostMapping(path = "/getAll")
     public ResponseEntity<List<Kunde>> getAll() {
-        List<Kunde> Kundes = kundeRepo.getAll();
+        List<Kunde> Kundes = kundeRepo.findAll();
         return ResponseEntity.ok(Kundes);
     }
 

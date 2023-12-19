@@ -1,8 +1,10 @@
 package map.project.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import map.project.demo.repository.Identifiable;
 
+@Data
 @Entity
 @Table(name = "autor")
 public class Autor implements Identifiable {
@@ -19,30 +21,6 @@ public class Autor implements Identifiable {
 
     public Autor() {
 
-    }
-
-    public Long getIdAutor() {
-        return idAutor;
-    }
-
-    public void setIdAutor(Long idAutor) {
-        this.idAutor = idAutor;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVorname() {
-        return vorname;
-    }
-
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
     }
 
     @Override

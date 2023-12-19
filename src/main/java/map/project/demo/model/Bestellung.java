@@ -1,24 +1,28 @@
 package map.project.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import map.project.demo.repository.Identifiable;
 
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "bestellung")
 public class Bestellung implements Identifiable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idBestellung;
     private LocalDateTime datum;
     private float gesamtpreis;
     private String adresse;
-//    @OneToMany(mappedBy = "bestellung", cascade = CascadeType.ALL)
-//    private List<Buch> listeBucher;
+
+    @OneToMany(mappedBy = "bestellung", cascade = CascadeType.ALL)
+    private List<Buch> listeBucher;
 
     public Bestellung(Long idBestellung, LocalDateTime datum, float gesamtpreis, String adresse) {
         this.idBestellung = idBestellung;
@@ -36,6 +40,10 @@ public class Bestellung implements Identifiable {
 
     }
 
+    @Override
+    public Long getId() {
+        return null;
+    }
 //    @Override
 //    public ArrayList<Buch> getListeBucher() {
 //        return (ArrayList<Buch>) listeBucher;
@@ -60,40 +68,4 @@ public class Bestellung implements Identifiable {
 //        this.listeBucher = listeBucher;
 //    }
 
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public float getGesamtpreis() {
-        return gesamtpreis;
-    }
-
-    public void setGesamtpreis(float gesamtpreis) {
-        this.gesamtpreis = gesamtpreis;
-    }
-
-    public Long getIdBestellung() {
-        return idBestellung;
-    }
-
-    public void setIdBestellung(Long idBestellung) {
-        this.idBestellung = idBestellung;
-    }
-
-    public LocalDateTime getDatum() {
-        return datum;
-    }
-
-    public void setDatum(LocalDateTime datum) {
-        this.datum = datum;
-    }
-
-    @Override
-    public Long getId() {
-        return null;
-    }
 }
