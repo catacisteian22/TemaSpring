@@ -16,16 +16,16 @@ public class Buch implements Identifiable {
     private String title;
     private String autor;
     private String genre;
-    private int anzahlSeiten;
-    private int erstellungsjahr;
+    private Integer anzahlSeiten;
+    private Integer erstellungsjahr;
     private float preis;
 
     @ManyToOne
-    @JoinColumn(name = "idBestellung")
+    @JoinColumn(name = "id_bestellung")
     private Bestellung bestellung;
 
     @ManyToOne
-    @JoinColumn(name = "idWishlist")
+    @JoinColumn(name = "id_wishlist")
     private Wishlist wishlist;
 
     public Buch(Long idBuch, String title, String autor, String genre, int anzahlSeiten, int erstellungsjahr, float preis) {

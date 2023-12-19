@@ -20,11 +20,11 @@ public class Konto implements Identifiable {
     private String typ;// kunde oder Angestellte
 
     @OneToOne
-    @JoinColumn(name = "idKunde")
+    @JoinColumn(name = "id_Kunde")
     private Kunde kunde;
 
     @OneToOne
-    @JoinColumn(name = "idAngestellte")
+    @JoinColumn(name = "id_Angestellte")
     private Angestellte angestellte;
 
     public Konto(Long idKonto, String username, String password, LocalDateTime joinDatum, String typ) {

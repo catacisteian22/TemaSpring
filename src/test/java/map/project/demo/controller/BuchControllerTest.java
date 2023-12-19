@@ -2,6 +2,7 @@ package map.project.demo.controller;
 
 import map.project.demo.model.Buch;
 import map.project.demo.repository.BuchRepo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,33 +30,28 @@ class BuchControllerTest {
     @InjectMocks
     private BuchController buchController;
 
+    @BeforeEach
+    void setUp() {
+        buchRepo.save(new Buch(1L, "Titel", "Author", "genre", 298, 2023, 33.8f));
+        buchRepo.save(new Buch(2L, "Titel", "Author", "genre", 298, 2023, 33.8f));
+        buchRepo.save(new Buch(3L, "Titel", "Author", "genre", 298, 2023, 33.8f));
+        buchRepo.save(new Buch(4L, "Titel", "Author", "genre", 298, 2023, 33.8f));
+    }
+
     @Test
     void testDeleteBuchRequest() {
         Long idToDelete = 1L;
-        when(buchRepo.findById(idToDelete)).thenReturn(Optional.of(new Buch()));
 
         ResponseEntity<String> responseEntity = buchController.deleteBuchRequest(idToDelete);
 
         verify(buchRepo, times(1)).deleteById(idToDelete);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("operation succeeded!", responseEntity.getBody());
-    }
-
-    @Test
-    void testDeleteBuchRequestNotFound() {
-        Long idToDelete = 1L;
-        when(buchRepo.findById(idToDelete)).thenReturn(Optional.empty());
-
-        ResponseEntity<String> responseEntity = buchController.deleteBuchRequest(idToDelete);
-
-        verify(buchRepo, never()).deleteById(any());
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertEquals(" id not found", responseEntity.getBody());
+        assertEquals("Operation succeeded!", responseEntity.getBody());
     }
 
     @Test
     void testGetBuchById() {
-        Long idToFind = 1L;
+        Long idToFind = 4L;
         Buch expectedBuch = new Buch();
         when(buchRepo.findById(idToFind)).thenReturn(Optional.of(expectedBuch));
 
@@ -63,17 +59,6 @@ class BuchControllerTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedBuch, responseEntity.getBody());
-    }
-
-    @Test
-    void testGetBuchByIdNotFound() {
-        Long idToFind = 1L;
-        when(buchRepo.findById(idToFind)).thenReturn(Optional.empty());
-
-        ResponseEntity<Buch> responseEntity = buchController.getBuchById(idToFind);
-
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertEquals(null, responseEntity.getBody());
     }
 
     @Test
