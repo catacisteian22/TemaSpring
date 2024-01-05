@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import map.project.demo.repository.Identifiable;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -24,6 +25,8 @@ public class Angestellte implements Identifiable {
 
     @OneToOne(mappedBy = "angestellte")
     private Konto konto;
+    public Angestellte(Long idAngestellte, String name, String vorname, String email, Date geburtsDatum, String rolle, int gehalt) {
+    }
 
     @Override
     public String toString() {

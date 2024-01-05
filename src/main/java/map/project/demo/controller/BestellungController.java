@@ -158,8 +158,8 @@ public class BestellungController {
         for (Buch book : chosenBooks) {
             totalPrice += book.getPreis();
         }
-
         return totalPrice;
     }
+
 
 }

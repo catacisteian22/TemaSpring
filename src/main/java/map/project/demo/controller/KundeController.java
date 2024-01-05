@@ -1,8 +1,10 @@
 package map.project.demo.controller;
 
 
+import map.project.demo.model.Konto;
 import map.project.demo.model.Kunde;
 import map.project.demo.model.Werbeveranstaltung;
+import map.project.demo.model.requestClasses.KundeRequest;
 import map.project.demo.repository.KundeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,15 +27,17 @@ public class KundeController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addKundeRequest(String name, String vorname, String email, Date geburtsDatum, Long idKunde, Werbeveranstaltung werbeveranstaltung) {
-        Kunde newKunde = new Kunde(name, vorname, email, geburtsDatum, idKunde,  werbeveranstaltung);
+    public ResponseEntity<String> addKundeRequest(KundeRequest kundeRequest) {
         try {
-            if (kundeRepo.getReferenceById(idKunde) != null) {
-                kundeRepo.save(newKunde);
-                return ResponseEntity.ok("operation succeeded!");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
-            }
+            Kunde newKunde = new Kunde(
+                    kundeRequest.getIdKunde(),
+                    kundeRequest.getName(),
+                    kundeRequest.getVorname(),
+                    kundeRequest.getEmail(),
+                    kundeRequest.getGeburtsDatum()
+            );
+            kundeRepo.save(newKunde);
+            return ResponseEntity.ok("operation succeeded!");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while deleting Kunde");

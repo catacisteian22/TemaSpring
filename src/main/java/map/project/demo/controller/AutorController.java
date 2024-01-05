@@ -1,6 +1,8 @@
 package map.project.demo.controller;
 
 import map.project.demo.model.Autor;
+import map.project.demo.model.Konto;
+import map.project.demo.model.requestClasses.AutorRequest;
 import map.project.demo.repository.AutorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,15 +24,15 @@ public class AutorController {
 
     //autorController/add
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addAutorRequest(Long idAutor, String name, String vorname) {
-        Autor newAutor = new Autor(idAutor, name, vorname);
+    public ResponseEntity<String> addAutorRequest(AutorRequest autorRequest) {
         try {
-            if (autorRepo.getReferenceById(idAutor) != null) {
-                autorRepo.save(newAutor);
-                return ResponseEntity.ok("operation succeeded!");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
-            }
+            Autor newAutor = new Autor(
+                    autorRequest.getIdAutor(),
+                    autorRequest.getName(),
+                    autorRequest.getVorname()
+            );
+            autorRepo.save(newAutor);
+            return ResponseEntity.ok("operation succeeded!");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while deleting Autor");

@@ -15,6 +15,9 @@ public class Review implements Identifiable {
     private String text;
     private int anzahlSternchen;
 
+    public Review(Long idReview, String text, int anzahlSternchen) {
+    }
+
     @Override
     public String toString() {
         return "Review{" +
