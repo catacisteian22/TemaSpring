@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import map.project.demo.repository.Identifiable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,12 +22,4 @@ public class Wishlist implements Identifiable {
     public Long getId() {
         return idWishlist;
     }
-
-//    public List<Buch> getListeBucher() {
-//        return listeBucher;
-//    }
-//
-//    public void setListeBucher(ArrayList<Buch> listeBucher) {
-//        this.listeBucher = listeBucher;
-//    }
 }

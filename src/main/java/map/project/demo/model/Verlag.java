@@ -18,6 +18,14 @@ public class Verlag implements Identifiable {
     private String telefonNummer;
     private String email;
 
+    public Verlag(Long idVerlag, String name, String adresse, String telefonNummer, String email) {
+        this.idVerlag = idVerlag;
+        this.name = name;
+        this.adresse = adresse;
+        this.telefonNummer = telefonNummer;
+        this.email = email;
+    }
+
     @Override
     public Long getId() {
         return idVerlag;

@@ -1,6 +1,8 @@
 package map.project.demo.controller;
 
+import map.project.demo.model.Buch;
 import map.project.demo.model.Konto;
+import map.project.demo.model.requestClasses.KontoRequest;
 import map.project.demo.repository.KontoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,18 +25,20 @@ public class KontoController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addKontoRequest(Long idKonto,String username, String password, LocalDateTime joinDatum, String typ) {
-        Konto newKonto = new Konto(idKonto,username, password, joinDatum, typ);
+    public ResponseEntity<String> addKontoRequest(KontoRequest kontoRequest) {
         try {
-            if (kontorepo.getReferenceById(idKonto) != null) {
-                kontorepo.save(newKonto);
-                return ResponseEntity.ok("operation succeeded!");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
-            }
+            Konto newKonto = new Konto(
+                    kontoRequest.getIdKonto(),
+                    kontoRequest.getUsername(),
+                    kontoRequest.getPassword(),
+                    kontoRequest.getJoinDatum(),
+                    kontoRequest.getTyp()
+            );
+            kontorepo.save(newKonto);
+            return ResponseEntity.ok("operation succeeded!");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while deleting Konto");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     }
 

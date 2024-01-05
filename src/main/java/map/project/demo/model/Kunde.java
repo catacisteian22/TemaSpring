@@ -33,7 +33,7 @@ public class Kunde implements Observer, Display, Identifiable {
 //        this.werbeveranstaltung.registerObserver(this);
 //    }
 
-    public Kunde(String name, String vorname, String email, Date geburtsDatum, Long idKunde, Werbeveranstaltung werbeveranstaltung) {
+    public Kunde(Long idKunde, String name, String vorname, String email, Date geburtsDatum) {
         this.name = name;
         this.vorname = vorname;
         this.email = email;

@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/buchController")
@@ -20,10 +18,6 @@ public class BuchController {
 
     @Autowired
     private BuchRepo buchRepo;
-
-//    public BuchController(BuchRepo buchRepo) {
-//        this.buchRepo = buchRepo;
-//    }
 
     @PostMapping(path = "/add")
     public ResponseEntity<String> addBuchRequest(@RequestBody BuchRequest buchRequest) {
@@ -68,7 +62,7 @@ public class BuchController {
             @PathVariable Long id,
             @RequestBody Buch updatedBuch) {
         try {
-            if (buchRepo.getById(id) != null) {
+            if (buchRepo.getReferenceById(id) != null) {
                 updatedBuch.setIdBuch(id);
                 buchRepo.save(updatedBuch);
                 return ResponseEntity.ok("operation succeeded");

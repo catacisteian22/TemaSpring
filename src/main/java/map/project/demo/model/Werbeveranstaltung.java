@@ -10,14 +10,13 @@ import java.util.ArrayList;
 @Data
 @Entity
 @Table(name = "werbeveranstaltung")
-public class Werbeveranstaltung implements Identifiable {// implements Observable {
+public class Werbeveranstaltung implements Identifiable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idWerbe;
     private LocalDateTime dateWerbe;
     private String titelWerbe;
-//    private ArrayList<Observer> observerKunden;
 
     public Werbeveranstaltung() {
 //        observerKunden = new ArrayList<>();
