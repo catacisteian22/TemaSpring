@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import map.project.demo.repository.Identifiable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "buch")
@@ -24,9 +27,8 @@ public class Buch implements Identifiable {
     @JoinColumn(name = "id_bestellung")
     private Bestellung bestellung;
 
-    @ManyToOne
-    @JoinColumn(name = "id_wishlist")
-    private Wishlist wishlist;
+    @ManyToMany(mappedBy = "listeBucherInWishlist")
+    private List<Wishlist> bucherInWishlist = new ArrayList();
 
     public Buch(Long idBuch, String title, String autor, String genre, int anzahlSeiten, int erstellungsjahr, float preis) {
         this.idBuch = idBuch;

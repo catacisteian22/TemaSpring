@@ -15,11 +15,26 @@ public class Wishlist implements Identifiable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idWishlist;
 
-    @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL)
-    private List<Buch> listeBucher;
+    @ManyToMany
+    @JoinTable(
+            name="bucher_in_wishlist",
+            joinColumns = @JoinColumn(name = "wishlist_ID"),
+            inverseJoinColumns = @JoinColumn(name = "buchId")
+    )
+    private List<Buch> listeBucherInWishlist;
 
     @Override
     public Long getId() {
         return idWishlist;
     }
 }
+
+
+
+
+
+
+
+
+
+
