@@ -41,4 +41,8 @@ public class Review implements Identifiable {
     public Long getId() {
         return idReview;
     }
+
+    public void assignBuch(Buch buch) {
+        this.buch = buch;
+    }
 }

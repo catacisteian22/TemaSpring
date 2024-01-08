@@ -7,6 +7,7 @@ import map.project.demo.model.Review;
 import map.project.demo.model.Werbeveranstaltung;
 import map.project.demo.model.requestClasses.ReviewRequest;
 import map.project.demo.model.requestClasses.ReviewRequest;
+import map.project.demo.repository.BuchRepo;
 import map.project.demo.repository.ReviewRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class ReviewController {
 
     @Autowired
     private ReviewRepo ReviewRepo;
+
+    @Autowired
+    private BuchRepo BuchRepo;
 
     public ReviewController(ReviewRepo ReviewRepo) {
         this.ReviewRepo = ReviewRepo;
@@ -94,6 +98,16 @@ public class ReviewController {
         List<Review> Reviews = ReviewRepo.findAll();
         return ResponseEntity.ok(Reviews);
     }
-
+  //many subject,review  teacher ,buch,one
+    @PutMapping("/{idReview}/buch/{idBuch}")
+    Review assignReviewToBuch(
+        @PathVariable Long idBuch,
+        @PathVariable Long idReview
+    ) {
+        Review review = ReviewRepo.findById(idReview).get();
+        Buch buch = BuchRepo.findById(idBuch).get();
+        review.assignBuch(buch);
+        return ReviewRepo.save(review);
+    }
 
 }
