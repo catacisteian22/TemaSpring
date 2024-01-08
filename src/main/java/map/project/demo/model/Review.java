@@ -12,10 +12,22 @@ public class Review implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idReview;
+
     private String text;
     private int anzahlSternchen;
 
+    //    @ManyToOne(cascade =  CascadeType.ALL)
+//    @JoinColumn(name= "buch_ID", referencedColumnName = "idReview")//foreign key in table Review
+//    private Buch buch;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "buch_ID")  // The foreign key in the Review table
+    private Buch buch;
+
     public Review(Long idReview, String text, int anzahlSternchen) {
+    }
+
+    public Review() {
+
     }
 
     @Override

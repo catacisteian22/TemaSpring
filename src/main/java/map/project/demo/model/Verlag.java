@@ -26,6 +26,10 @@ public class Verlag implements Identifiable {
         this.email = email;
     }
 
+    public Verlag() {
+
+    }
+
     @Override
     public Long getId() {
         return idVerlag;

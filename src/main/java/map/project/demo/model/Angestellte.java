@@ -21,11 +21,26 @@ public class Angestellte implements Identifiable {
     private String email;
     private Date geburtsDatum;
     private String rolle;
-    private int gehalt;
+    private Integer gehalt;
 
     @OneToOne(mappedBy = "angestellte")
     private Konto konto;
-    public Angestellte(Long idAngestellte, String name, String vorname, String email, Date geburtsDatum, String rolle, int gehalt) {
+
+    public Angestellte(Long idAngestellte, String name, String vorname, String email, Date geburtsDatum, String rolle, Integer gehalt) {
+        this.idAngestellte = idAngestellte;
+        this.name = name;
+        this.vorname = vorname;
+        this.email = email;
+        this.geburtsDatum = geburtsDatum;
+        this.rolle = rolle;
+        this.gehalt = gehalt;
+    }
+
+//    public Angestellte(Long idAngestellte, String name, String vorname, String email, Date geburtsDatum, String rolle, Integer gehalt) {
+//    }
+
+    public Angestellte() {
+
     }
 
     @Override

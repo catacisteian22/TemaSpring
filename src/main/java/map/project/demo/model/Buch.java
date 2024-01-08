@@ -1,5 +1,6 @@
 package map.project.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import map.project.demo.repository.Identifiable;
@@ -21,16 +22,24 @@ public class Buch implements Identifiable {
     private String genre;
     private Integer anzahlSeiten;
     private Integer erstellungsjahr;
-    private float preis;
+    private Float preis;
 
-    @ManyToOne
-    @JoinColumn(name = "id_bestellung")
-    private Bestellung bestellung;
+    //    @OneToMany(mappedBy = "buch")
+////    @JoinColumn(name = "id_review")
+//    private List<Review> reviewsList;
+    @OneToMany(mappedBy = "buch", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviewsList = new ArrayList<>();
 
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "listeBucherInBestellung")
+    private List<Bestellung> bucherInBestellung = new ArrayList();
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "listeBucherInWishlist")
     private List<Wishlist> bucherInWishlist = new ArrayList();
 
-    public Buch(Long idBuch, String title, String autor, String genre, int anzahlSeiten, int erstellungsjahr, float preis) {
+    public Buch(Long idBuch, String title, String autor, String genre, Integer anzahlSeiten, Integer erstellungsjahr, Float preis) {
         this.idBuch = idBuch;
         this.title = title;
         this.autor = autor;

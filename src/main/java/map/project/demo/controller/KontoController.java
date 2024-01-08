@@ -24,8 +24,8 @@ public class KontoController {
         this.kontorepo = kontorepo;
     }
 
-    @PostMapping(path = "/add")
-    public ResponseEntity<String> addKontoRequest(KontoRequest kontoRequest) {
+    @PostMapping(path = "/addKunde/{idKunde}")
+    public ResponseEntity<String> addKontoKunde(KontoRequest kontoRequest, @PathVariable Long idKunde) {
         try {
             Konto newKonto = new Konto(
                     kontoRequest.getIdKonto(),
@@ -33,6 +33,7 @@ public class KontoController {
                     kontoRequest.getPassword(),
                     kontoRequest.getJoinDatum(),
                     kontoRequest.getTyp()
+//                    kontoRequest.getIdKunde
             );
             kontorepo.save(newKonto);
             return ResponseEntity.ok("operation succeeded!");
@@ -42,54 +43,59 @@ public class KontoController {
         }
     }
 
-    @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<String> deleteKontoRequest(@PathVariable Long id) {
-        try {
-            if (kontorepo.getReferenceById(id) != null) {
-                kontorepo.deleteById(id);
-                return ResponseEntity.ok("operation succeeded!");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
-        }
-    }
 
-    @PutMapping(path = "/update/{id}")
-    public ResponseEntity<String> updateKonto(
-            @PathVariable Long id,
-            @RequestBody Konto updatedKonto) {
-        try {
-            if (kontorepo.getReferenceById(id) != null) {
-                updatedKonto.setIdKonto(id);
-                kontorepo.save(updatedKonto);
-                return ResponseEntity.ok("operation succeeded");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred ");
-        }
-    }
+//    @PostMapping(path = "/addAngestellte/{idAngestellte)")
+//    public ResponseEntity<String> addKontoAngestellte(KontoRequest
 
 
-    @GetMapping(path = "/getByID/{id}")
-    public ResponseEntity<Konto> getKontoById(@PathVariable Long id) {
-        Konto konto = kontorepo.findById(id).get();
+//    @DeleteMapping(path = "/delete/{id}")
+//    public ResponseEntity<String> deleteKontoRequest(@PathVariable Long id) {
+//        try {
+//            if (kontorepo.getReferenceById(id) != null) {
+//                kontorepo.deleteById(id);
+//                return ResponseEntity.ok("operation succeeded!");
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+//        }
+//    }
 
-        if (konto != null) {
-            return ResponseEntity.ok(konto);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
+//    @PutMapping(path = "/update/{id}")
+//    public ResponseEntity<String> updateKonto(
+//            @PathVariable Long id,
+//            @RequestBody Konto updatedKonto) {
+//        try {
+//            if (kontorepo.getReferenceById(id) != null) {
+//                updatedKonto.setIdKonto(id);
+//                kontorepo.save(updatedKonto);
+//                return ResponseEntity.ok("operation succeeded");
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred ");
+//        }
+//    }
 
-    @PostMapping(path = "/getAll")
-    public ResponseEntity<List<Konto>> getAll() {
-        List<Konto> Kontos = kontorepo.findAll();
-        return ResponseEntity.ok(Kontos);
-    }
+
+//    @GetMapping(path = "/getByID/{id}")
+//    public ResponseEntity<Konto> getKontoById(@PathVariable Long id) {
+//        Konto konto = kontorepo.findById(id).get();
+//
+//        if (konto != null) {
+//            return ResponseEntity.ok(konto);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+//    }
+//
+//    @PostMapping(path = "/getAll")
+//    public ResponseEntity<List<Konto>> getAll() {
+//        List<Konto> Kontos = kontorepo.findAll();
+//        return ResponseEntity.ok(Kontos);
+//    }
 }

@@ -20,15 +20,20 @@ public class Bestellung implements Identifiable {
     private float gesamtpreis;
     private String adresse;
 
-    @OneToMany(mappedBy = "bestellung", cascade = CascadeType.ALL)
-    private List<Buch> listeBucher;
+    @ManyToMany
+    @JoinTable(
+            name="bucher_in_bestellung",
+            joinColumns = @JoinColumn(name = "bestellung_ID"),
+            inverseJoinColumns = @JoinColumn(name = "buch_ID")
+    )
+    private List<Buch> listeBucherInBestellung;
 
     public Bestellung(Long idBestellung, LocalDateTime datum, float gesamtpreis, String adresse, List<Buch> listeBucher) {
         this.idBestellung = idBestellung;
         this.datum = datum;
         this.gesamtpreis = gesamtpreis;
         this.adresse = adresse;
-        this.listeBucher = listeBucher;
+        this.listeBucherInBestellung = listeBucher;
     }
     public Bestellung(){
     }

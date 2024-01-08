@@ -19,9 +19,17 @@ public class Wishlist implements Identifiable {
     @JoinTable(
             name="bucher_in_wishlist",
             joinColumns = @JoinColumn(name = "wishlist_ID"),
-            inverseJoinColumns = @JoinColumn(name = "buchId")
+            inverseJoinColumns = @JoinColumn(name = "buch_ID")
     )
     private List<Buch> listeBucherInWishlist;
+
+    public Wishlist(Long idWishlist, List<Buch> wishlists) {
+        this.idWishlist = idWishlist;
+        this.listeBucherInWishlist = wishlists;
+    }
+
+    public Wishlist() {
+    }
 
     @Override
     public Long getId() {
