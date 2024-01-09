@@ -5,6 +5,6 @@ import lombok.Data;
 public class ReviewRequest {
     private Long idReview;
     private String text;
-    private int anzahlSternchen;
+    private Integer anzahlSternchen;
 
 }

@@ -41,7 +41,7 @@ public class BuchController {
 
 
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<String> deleteBuchRequest(@PathVariable Long id) {
+    public ResponseEntity<String> deleteBuchRequest(@PathVariable java.lang.Long id) {
         try {
 
             if (buchRepo.findById(id) != null) {
@@ -59,7 +59,7 @@ public class BuchController {
 
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<String> updateBuch(
-            @PathVariable Long id,
+            @PathVariable java.lang.Long id,
             @RequestBody Buch updatedBuch) {
         try {
             if (buchRepo.getReferenceById(id) != null) {
@@ -77,7 +77,7 @@ public class BuchController {
 
 
     @GetMapping(path = "/getByID/{id}")
-    public ResponseEntity<Buch> getBuchById(@PathVariable Long id) {
+    public ResponseEntity<Buch> getBuchById(@PathVariable java.lang.Long id) {
         try {
             Optional<Buch> optionalBuch = buchRepo.findById(id);
 

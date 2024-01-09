@@ -10,9 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/kontoController")
 public class KontoController {
@@ -25,7 +22,7 @@ public class KontoController {
     }
 
     @PostMapping(path = "/addKunde/{idKunde}")
-    public ResponseEntity<String> addKontoKunde(KontoRequest kontoRequest, @PathVariable Long idKunde) {
+    public ResponseEntity<String> addKontoKunde(KontoRequest kontoRequest, @PathVariable Buch idKunde) {
         try {
             Konto newKonto = new Konto(
                     kontoRequest.getIdKonto(),

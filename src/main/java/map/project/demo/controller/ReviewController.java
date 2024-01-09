@@ -2,10 +2,7 @@ package map.project.demo.controller;
 
 
 import map.project.demo.model.Buch;
-import map.project.demo.model.Konto;
 import map.project.demo.model.Review;
-import map.project.demo.model.Werbeveranstaltung;
-import map.project.demo.model.requestClasses.ReviewRequest;
 import map.project.demo.model.requestClasses.ReviewRequest;
 import map.project.demo.repository.BuchRepo;
 import map.project.demo.repository.ReviewRepo;
@@ -15,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller // This means that this class is a Controller
@@ -49,7 +45,7 @@ public class ReviewController {
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<String> deleteReviewRequest(@PathVariable Long id) {
+    public ResponseEntity<String> deleteReviewRequest(@PathVariable java.lang.Long id) {
         try {
             if (ReviewRepo.getReferenceById(id) != null) {
                 ReviewRepo.deleteById(id);
@@ -65,7 +61,7 @@ public class ReviewController {
 
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<String> updateReview(
-            @PathVariable Long id,
+            @PathVariable java.lang.Long id,
             @RequestBody Review updatedReview) {
         try {
             if (ReviewRepo.getReferenceById(id) != null) {
@@ -83,7 +79,7 @@ public class ReviewController {
 
 
     @GetMapping(path = "/getByID/{id}")
-    public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
+    public ResponseEntity<Review> getReviewById(@PathVariable java.lang.Long id) {
         Review Review = ReviewRepo.findById(id).get();
 
         if (Review != null) {
@@ -101,8 +97,8 @@ public class ReviewController {
   //many subject,review  teacher ,buch,one
     @PutMapping("/{idReview}/buch/{idBuch}")
     Review assignReviewToBuch(
-        @PathVariable Long idBuch,
-        @PathVariable Long idReview
+        @PathVariable java.lang.Long idBuch,
+        @PathVariable java.lang.Long idReview
     ) {
         Review review = ReviewRepo.findById(idReview).get();
         Buch buch = BuchRepo.findById(idBuch).get();

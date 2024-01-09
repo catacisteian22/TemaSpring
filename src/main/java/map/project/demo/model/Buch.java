@@ -30,10 +30,9 @@ public class Buch implements Identifiable {
     @OneToMany(mappedBy = "buch", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewsList = new ArrayList<>();
 
-
     @JsonIgnore
     @ManyToMany(mappedBy = "listeBucherInBestellung")
-    private List<Bestellung> bucherInBestellung = new ArrayList();
+    private List<Bestellung> bestellungen = new ArrayList<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "listeBucherInWishlist")

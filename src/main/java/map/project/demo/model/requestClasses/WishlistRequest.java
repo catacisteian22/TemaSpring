@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class WishlistRequest {
-    private Long idWishlist;
+    private java.lang.Long idWishlist;
     private List<Buch> listeBucherInWishlist;
 }

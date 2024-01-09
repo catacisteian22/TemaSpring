@@ -11,7 +11,6 @@ public class BestellungRequest {
 
     private Long idBestellung;
     private LocalDateTime datum;
-//    private float gesamtpreis;
     private String adresse;
-    private List<Buch> listeBucherInBestellung;
+    private List<Long> listeBucherInBestellung;
 }

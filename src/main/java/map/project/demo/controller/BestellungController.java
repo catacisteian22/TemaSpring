@@ -4,6 +4,7 @@ import map.project.demo.model.*;
 import map.project.demo.model.requestClasses.BestellungRequest;
 import map.project.demo.repository.BestellungRepo;
 import map.project.demo.repository.BuchRepo;
+import map.project.demo.service.BestellungService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class BestellungController {
     @Autowired
     private BuchRepo buchRepo;
 
+    @Autowired
+    private BestellungService service;
+
     // Create a new wishlist
     @PostMapping("/create")
     public ResponseEntity<String> createBestellung(@RequestBody BestellungRequest bestellungRequest) {
@@ -31,8 +35,7 @@ public class BestellungController {
                     bestellungRequest.getIdBestellung(),
                     bestellungRequest.getDatum(),
                     gesamtPreis,
-                    bestellungRequest.getAdresse(),
-                    bestellungRequest.getListeBucherInBestellung()
+                    bestellungRequest.getAdresse()
             );
             bestellungRepo.save(newBestellung);
             return ResponseEntity.ok("operation succeeded!");
@@ -47,11 +50,9 @@ public class BestellungController {
             @PathVariable Long bestellungId,
             @PathVariable Long buchId
     ) {
-        Bestellung bestellung = bestellungRepo.findById(bestellungId).get();
-        Buch buch = buchRepo.findById(buchId).get();
-        bestellung.getListeBucherInBestellung().add(buch);
+        service.addBuchToBestellung(bestellungId, buchId);
 
-        return bestellungRepo.save(bestellung);
+        return bestellungRepo.findById(bestellungId).orElse(null);
     }
 
     @GetMapping("/getAll/{bestellungId}") // Get all books from a bestellung
@@ -68,11 +69,15 @@ public class BestellungController {
         }
     }
 
-    public float calculateTotalPrice(List<Buch> chosenBooks) {
+    public float calculateTotalPrice(List<Long> chosenBooksIDs) {
+
         float totalPrice = 0;
 
-        for (Buch book : chosenBooks) {
-            totalPrice += book.getPreis();
+        for (Long id_book : chosenBooksIDs) {
+            if(!buchRepo.getReferenceById(id_book).equals(null)){
+                totalPrice += buchRepo.getReferenceById(id_book).getPreis();
+            }
+
         }
         return totalPrice;
     }

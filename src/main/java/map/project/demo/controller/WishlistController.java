@@ -42,8 +42,8 @@ public class WishlistController {
 
     @PutMapping("/{wishlistId}/wishlists/{buchId}")
     Wishlist addBuchToWishlist(
-            @PathVariable Long wishlistId,
-            @PathVariable Long buchId
+            @PathVariable java.lang.Long wishlistId,
+            @PathVariable java.lang.Long buchId
     ) {
         Wishlist wishlist = wishlistRepo.findById(wishlistId).get();
         Buch buch = buchRepo.findById(buchId).get();
@@ -53,7 +53,7 @@ public class WishlistController {
     }
 
     @GetMapping("/getAll/{wishlistId}") // Get all books from a wishlist
-    public ResponseEntity<List<Buch>> getAllBooksFromWishlist(@PathVariable Long wishlistId) {
+    public ResponseEntity<List<Buch>> getAllBooksFromWishlist(@PathVariable java.lang.Long wishlistId) {
         Optional<Wishlist> wishlistOptional = wishlistRepo.findById(wishlistId);
 
         if (wishlistOptional.isPresent()) {
@@ -84,7 +84,7 @@ public class WishlistController {
 
     // Delete a wishlist by ID
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteWishlist(@PathVariable Long id) {
+    public ResponseEntity<String> deleteWishlist(@PathVariable java.lang.Long id) {
         Optional<Wishlist> wishlist = wishlistRepo.findById(id);
         if (wishlist.isPresent()) {
             wishlistRepo.deleteById(id);

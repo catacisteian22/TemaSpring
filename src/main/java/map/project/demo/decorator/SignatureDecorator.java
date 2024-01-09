@@ -1,6 +1,5 @@
 package map.project.demo.decorator;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import map.project.demo.model.Buch;
