@@ -1,7 +1,5 @@
 package map.project.demo.controller;
 
-
-import map.project.demo.model.Buch;
 import map.project.demo.model.Review;
 import map.project.demo.model.requestClasses.ReviewRequest;
 import map.project.demo.repository.BuchRepo;
@@ -15,40 +13,45 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller // This means that this class is a Controller
-@RequestMapping(path="/ReviewController")
+@RequestMapping(path = "/reviewController")
 public class ReviewController {
 
     @Autowired
-    private ReviewRepo ReviewRepo;
+    private ReviewRepo reviewRepo;
 
     @Autowired
-    private BuchRepo BuchRepo;
+    private BuchRepo buchRepo;
 
     public ReviewController(ReviewRepo ReviewRepo) {
-        this.ReviewRepo = ReviewRepo;
+        this.reviewRepo = ReviewRepo;
     }
 
-    @PostMapping(path = "/add")
-    public ResponseEntity<String> addReviewRequest(ReviewRequest ReviewRequest) {
+    @PostMapping(path = "/add/{id_buch}")
+    public ResponseEntity<String> addReviewRequest(ReviewRequest ReviewRequest, @PathVariable Long buchID) {
+
         try {
-            Review newReview = new Review(
-                    ReviewRequest.getIdReview(),
-                    ReviewRequest.getText(),
-                    ReviewRequest.getAnzahlSternchen()
-            );
-            ReviewRepo.save(newReview);
+            if (buchRepo.getReferenceById(buchID) != null) {
+
+                Review newReview = new Review(
+                        ReviewRequest.getIdReview(),
+                        ReviewRequest.getText(),
+                        ReviewRequest.getAnzahlSternchen()
+                );
+                reviewRepo.save(newReview);
+            }
             return ResponseEntity.ok("operation succeeded!");
+
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while deleting Review");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     }
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<String> deleteReviewRequest(@PathVariable java.lang.Long id) {
         try {
-            if (ReviewRepo.getReferenceById(id) != null) {
-                ReviewRepo.deleteById(id);
+            if (reviewRepo.getReferenceById(id) != null) {
+                reviewRepo.deleteById(id);
                 return ResponseEntity.ok("operation succeeded!");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" id not found");
@@ -64,9 +67,9 @@ public class ReviewController {
             @PathVariable java.lang.Long id,
             @RequestBody Review updatedReview) {
         try {
-            if (ReviewRepo.getReferenceById(id) != null) {
+            if (reviewRepo.getReferenceById(id) != null) {
                 updatedReview.setIdReview(id);
-                ReviewRepo.save(updatedReview);
+                reviewRepo.save(updatedReview);
                 return ResponseEntity.ok("operation succeeded");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id not found");
@@ -80,7 +83,7 @@ public class ReviewController {
 
     @GetMapping(path = "/getByID/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable java.lang.Long id) {
-        Review Review = ReviewRepo.findById(id).get();
+        Review Review = reviewRepo.findById(id).get();
 
         if (Review != null) {
             return ResponseEntity.ok(Review);
@@ -91,19 +94,20 @@ public class ReviewController {
 
     @PostMapping(path = "/getAll")
     public ResponseEntity<List<Review>> getAll() {
-        List<Review> Reviews = ReviewRepo.findAll();
+        List<Review> Reviews = reviewRepo.findAll();
         return ResponseEntity.ok(Reviews);
     }
-  //many subject,review  teacher ,buch,one
-    @PutMapping("/{idReview}/buch/{idBuch}")
-    Review assignReviewToBuch(
-        @PathVariable java.lang.Long idBuch,
-        @PathVariable java.lang.Long idReview
-    ) {
-        Review review = ReviewRepo.findById(idReview).get();
-        Buch buch = BuchRepo.findById(idBuch).get();
-        review.assignBuch(buch);
-        return ReviewRepo.save(review);
-    }
+
+    //many subject,review  teacher ,buch,one
+//    @PutMapping("/{idReview}/buch/{idBuch}")
+//    Review assignReviewToBuch(
+//            @PathVariable java.lang.Long idBuch,
+//            @PathVariable java.lang.Long idReview
+//    ) {
+//        Review review = ReviewRepo.findById(idReview).get();
+//        Buch buch = BuchRepo.findById(idBuch).get();
+//        review.assignBuch(buch);
+//        return ReviewRepo.save(review);
+//    }
 
 }

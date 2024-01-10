@@ -26,20 +26,12 @@ public class Kunde implements Observer, Display, Identifiable {
     @OneToOne(mappedBy = "kunde")
     private Konto konto;
 
-//    private Werbeveranstaltung werbeveranstaltung;
-
-//    public Kunde(Werbeveranstaltung werbeveranstaltung) {
-//        this.werbeveranstaltung = werbeveranstaltung;
-//        this.werbeveranstaltung.registerObserver(this);
-//    }
-
     public Kunde(Long idKunde, String name, String vorname, String email, Date geburtsDatum) {
         this.name = name;
         this.vorname = vorname;
         this.email = email;
         this.geburtsDatum = geburtsDatum;
         this.idKunde = idKunde;
-//        this.werbeveranstaltung = werbeveranstaltung;
     }
 
     public Kunde() {

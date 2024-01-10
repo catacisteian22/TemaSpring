@@ -1,7 +1,6 @@
 package map.project.demo.controller;
 
 import map.project.demo.model.Autor;
-import map.project.demo.model.Konto;
 import map.project.demo.model.requestClasses.AutorRequest;
 import map.project.demo.repository.AutorRepo;
 import org.springframework.beans.factory.annotation.Autowired;

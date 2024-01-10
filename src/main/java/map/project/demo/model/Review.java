@@ -14,16 +14,13 @@ public class Review implements Identifiable {
     private Long idReview;
 
     private String text;
-    private int anzahlSternchen;
+    private Integer anzahlSternchen;
 
-    //    @ManyToOne(cascade =  CascadeType.ALL)
-//    @JoinColumn(name= "buch_ID", referencedColumnName = "idReview")//foreign key in table Review
-//    private Buch buch;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "buch_ID")  // The foreign key in the Review table
     private Buch buch;
 
-    public Review(Long idReview, String text, int anzahlSternchen) {
+    public Review(Long idReview, String text, Integer anzahlSternchen) {
     }
 
     public Review() {
@@ -42,7 +39,4 @@ public class Review implements Identifiable {
         return idReview;
     }
 
-    public void assignBuch(Buch buch) {
-        this.buch = buch;
-    }
 }

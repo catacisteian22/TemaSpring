@@ -1,9 +1,6 @@
 package map.project.demo.controller;
 
-
-import map.project.demo.model.Konto;
 import map.project.demo.model.Verlag;
-import map.project.demo.model.Werbeveranstaltung;
 import map.project.demo.model.requestClasses.VerlagRequest;
 import map.project.demo.repository.VerlagRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller // This means that this class is a Controller

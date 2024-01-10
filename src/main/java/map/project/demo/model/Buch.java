@@ -24,9 +24,6 @@ public class Buch implements Identifiable {
     private Integer erstellungsjahr;
     private Float preis;
 
-    //    @OneToMany(mappedBy = "buch")
-////    @JoinColumn(name = "id_review")
-//    private List<Review> reviewsList;
     @OneToMany(mappedBy = "buch", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewsList = new ArrayList<>();
 

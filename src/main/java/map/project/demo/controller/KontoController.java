@@ -1,9 +1,10 @@
 package map.project.demo.controller;
 
-import map.project.demo.model.Buch;
 import map.project.demo.model.Konto;
 import map.project.demo.model.requestClasses.KontoRequest;
+import map.project.demo.repository.AngestellteRepo;
 import map.project.demo.repository.KontoRepo;
+import map.project.demo.repository.KundeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,30 +12,40 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller // This means that this class is a Controller
-@RequestMapping(path="/kontoController")
+@RequestMapping(path = "/kontoController")
 public class KontoController {
 
     @Autowired
     private KontoRepo kontorepo;
+
+    @Autowired
+    private KundeRepo kundeRepo;
+
+    @Autowired
+    private AngestellteRepo angestellteRepo;
 
     public KontoController(KontoRepo kontorepo) {
         this.kontorepo = kontorepo;
     }
 
     @PostMapping(path = "/addKunde/{idKunde}")
-    public ResponseEntity<String> addKontoKunde(KontoRequest kontoRequest, @PathVariable Buch idKunde) {
+    public ResponseEntity<String> addKontoKunde(KontoRequest kontoRequest, @PathVariable Long idKunde) {
         try {
-            Konto newKonto = new Konto(
-                    kontoRequest.getIdKonto(),
-                    kontoRequest.getUsername(),
-                    kontoRequest.getPassword(),
-                    kontoRequest.getJoinDatum(),
-                    kontoRequest.getTyp()
-//                    kontoRequest.getIdKunde
-            );
-            kontorepo.save(newKonto);
+            if (kundeRepo.getReferenceById(idKunde) != null) {
+
+                Konto newKonto = new Konto(
+                        kontoRequest.getIdKonto(),
+                        kontoRequest.getUsername(),
+                        kontoRequest.getPassword(),
+                        kontoRequest.getJoinDatum(),
+                        kontoRequest.getTyp()
+                );
+                kontorepo.save(newKonto);
+            }
+
             return ResponseEntity.ok("operation succeeded!");
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }

@@ -1,7 +1,6 @@
 package map.project.demo.model.requestClasses;
 
 import lombok.Data;
-import map.project.demo.model.Buch;
 
 import java.time.LocalDateTime;
 import java.util.List;

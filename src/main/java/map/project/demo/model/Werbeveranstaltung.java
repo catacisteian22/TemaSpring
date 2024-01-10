@@ -17,10 +17,6 @@ public class Werbeveranstaltung implements Identifiable {
     private LocalDateTime dateWerbe;
     private String titelWerbe;
 
-    public Werbeveranstaltung() {
-//        observerKunden = new ArrayList<>();
-    }
-
     public void createEvent(Long idWerbe, LocalDateTime dateWerbe, String titelWerbe) {
         this.setIdWerbe(idWerbe);
         this.setDateWerbe(dateWerbe);

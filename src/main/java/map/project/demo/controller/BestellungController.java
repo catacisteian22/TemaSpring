@@ -55,32 +55,33 @@ public class BestellungController {
         return bestellungRepo.findById(bestellungId).orElse(null);
     }
 
-    @GetMapping("/getAll/{bestellungId}") // Get all books from a bestellung
-    public ResponseEntity<List<Buch>> getAllBooksFromBestellung(@PathVariable Long bestellungId) {
-        Optional<Bestellung> bestellungOptional = bestellungRepo.findById(bestellungId);
 
-        if (bestellungOptional.isPresent()) {
-            Bestellung bestellung = bestellungOptional.get();
-            List<Buch> booksInBestellung = bestellung.getListeBucherInBestellung();
+@GetMapping("/getAll/{bestellungId}") // Get all books from a bestellung
+public ResponseEntity<List<Buch>> getAllBooksFromBestellung(@PathVariable Long bestellungId) {
+    Optional<Bestellung> bestellungOptional = bestellungRepo.findById(bestellungId);
 
-            return ResponseEntity.ok(booksInBestellung);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    if (bestellungOptional.isPresent()) {
+        Bestellung bestellung = bestellungOptional.get();
+        List<Buch> booksInBestellung = bestellung.getListeBucherInBestellung();
+
+        return ResponseEntity.ok(booksInBestellung);
+    } else {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+}
 
-    public float calculateTotalPrice(List<Long> chosenBooksIDs) {
+public float calculateTotalPrice(List<Long> chosenBooksIDs) {
 
-        float totalPrice = 0;
+    float totalPrice = 0;
 
-        for (Long id_book : chosenBooksIDs) {
-            if(!buchRepo.getReferenceById(id_book).equals(null)){
-                totalPrice += buchRepo.getReferenceById(id_book).getPreis();
-            }
-
+    for (Long id_book : chosenBooksIDs) {
+        if (!buchRepo.getReferenceById(id_book).equals(null)) {
+            totalPrice += buchRepo.getReferenceById(id_book).getPreis();
         }
-        return totalPrice;
+
     }
+    return totalPrice;
+}
 
 
 }
